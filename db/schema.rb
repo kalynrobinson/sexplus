@@ -28,7 +28,10 @@ ActiveRecord::Schema.define(version: 20170401181249) do
     t.integer  "category_id"
     t.string   "name"
     t.text     "description"
+    t.string   "input_type"
     t.hstore   "options"
+    t.integer  "parent_id"
+    t.string   "genitalia"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["category_id"], name: "index_questions_on_category_id", using: :btree

@@ -5,7 +5,11 @@ class CreateQuestions < ActiveRecord::Migration[5.0]
 
       t.string :name
       t.text :description
+      t.string :input_type
       t.hstore :options, index: true, using: :gist
+      t.integer :parent_id
+      t.string :genitalia
+
 
       t.timestamps
     end
