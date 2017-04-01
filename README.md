@@ -14,3 +14,6 @@ Sex+ is optimized for Rails v5.0.2 and Ruby v2.3.3.
 
 ## Tests
 * Run all tests with `rails test`.
+
+# Technical
+* Uses [Devise](https://github.com/plataformatec/devise) for user authentication.
