@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'questions/index'
+
   get 'user_pairs/new'
 
   devise_for :users

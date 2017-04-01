@@ -13,3 +13,24 @@ Category.create([{
     description: 'Acts that are not explicitly sexual, such as baths and massages.'
   }
 ])
+
+Question.create([{
+    category_id: 2,
+    name: 'cuddle',
+    description: '$1 cuddles with $2',
+  },{
+    category_id: 2,
+    name: 'spoon',
+    description: '$1 spoons with $2',
+  }, {
+    category_id: 1,
+    name: 'frequency',
+    description: 'I want to have sex',
+    options: {
+      moreOften: 'more often',
+      lessOften: 'less often',
+      same: 'the same amount',
+      noPreference: 'no preference'
+    }
+  }
+])

@@ -1,0 +1,44 @@
+<% provide(:title, 'Questions') %>
+
+<div class="mdl-layout__jumbo mdl-layout__index mdl-color--primary">
+    <div class="mdl-layout__header-row"></div>
+    <div class="mdl-layout__header-row">
+        <h1>Sex+ Survey Questions</h1>
+    </div>
+    <div class="mdl-layout__header-row">
+        All of the categories and their questions!
+    </div>
+    <div class="mdl-layout__header-row"></div>
+</div>
+
+<section class="section--center mdl-grid">
+  <% @categories.each do |category| %>
+    <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--survey">
+            <h2 class="mdl-card__title-text">
+              <%= category.name %>
+            </h2>
+            <h3 class="mdl-card__title-subtext"><%= category.description %></h3>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <% category.questions.each do |question| %>
+            <% if question.description.include? '$' %>
+              <%= replace_tokens question.description, "Georgia O'keeffe", "Virginia Wolf" %>
+              <br /><%= replace_tokens question.description, "Virginia Wolf", "Georgia O'keeffe" %>
+            <% else %>
+              <%= question.description %>
+            <% end %>
+
+            <!-- Display select options -->
+            <% unless question.options.nil? %>
+              <select>
+                <% question.options.each do |key, value| %>
+                  <option><%= value %></option>
+                <% end %>
+              </select>
+            <% end %>
+            <br /><br />
+          <% end %>
+        </div>
+    </div>
+  <% end %>

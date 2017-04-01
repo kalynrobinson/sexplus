@@ -22,6 +22,11 @@ html, body {
 }
 .mdl-card--image__link {
 }
+.mdl-card__title-subtext {
+  @extend .mdl-card__title-text;
+  font-size: 18px;
+  margin-left: 1rem;
+}
 a.mdl-navigation__link {
   text-transform: uppercase;
   font-weight: 500;
