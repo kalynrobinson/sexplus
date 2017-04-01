@@ -6,29 +6,17 @@ class SurveysController < ApplicationController
 
   def edit
     @survey = Survey.find_by(token: params[:id])
+    @categories = @survey.category_ids.map { |c| Category.find(c) }
   end
 
   def create
-    puts '*' * 50
-    puts survey_params.inspect
-    puts '*' * 50
     @survey = Survey.new(survey_params)
-    puts 'CATEGORY IDS: '
-    puts @survey.category_ids
-    puts 'USER1 INFO: '
-    puts @survey.user_pair.user1_name
-    puts @survey.user_pair.user1_genitals
-    puts 'USER2 INFO: '
-    puts @survey.user_pair.user2_name
-    puts @survey.user_pair.user2_genitals
-    puts @survey.save!
-    puts '*' * 50
+    @survey.category_ids.delete_at(0)
     if @survey.save
-      puts '+' * 50
+      @survey.save
       flash[:success] = "Survey submitted"
-      redirect_to @survey
+      redirect_to edit_survey_path @survey.token
     else
-      puts '-' * 50
       render 'new'
     end
   end

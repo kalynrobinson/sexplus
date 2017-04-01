@@ -18,6 +18,7 @@ gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
 # User MaterialDesignLight-Sass for Material Design Lite styles.
 gem 'material_design_lite-sass'
+gem 'material_components_web-sass'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views

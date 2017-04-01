@@ -8,7 +8,6 @@
         Discover and share sexual interests with your partner! Customize the survey to be as kinky or as granular as you want. But first, let us know some information so we can personalize your survey!
     </div>
     <div class="mdl-layout__header-row"></div>
-    <div class="mdl-layout__header-row"></div>
 </div>
 
 <div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
@@ -76,7 +75,7 @@
             </div>
             <div class="mdl-card__supporting-text">
                 Select which categories you would like to be included in your survey. For a full list of questions, see
-                <a href="#">here</a>.
+                <%= link_to 'here', questions_index_path %>.
                 <%= form.collection_check_boxes :category_ids, Category.all, :id, :name do |category| %>
                   <%= category.label class: 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect' do %>
                     <%= category.check_box class: 'mdl-checkbox__input' %>

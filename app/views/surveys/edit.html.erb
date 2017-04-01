@@ -1,2 +1,15 @@
-<h1>Survey#edit</h1>
-<p>Find me in app/views/survey/edit.html.erb</p>
+<% provide(:title, 'Survey') %>
+<div class="mdl-layout__jumbo mdl-layout__survey mdl-color--primary">
+    <div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
+    <div class="mdl-layout__header-row">
+        <h1>Sex+ Survey</h1>
+    </div>
+    <div class="mdl-layout__header-row">
+        Discover and share sexual interests with your partner! Fantasies that you answer "no" for will not show up in the shared results.
+    </div>
+    <div class="mdl-layout__header-row"></div>
+</div>
+
+<div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
+
+<%= render 'surveys/form' %>
