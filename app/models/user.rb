@@ -4,9 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  VALID_EMAIL_REGEX = /(.+@.+\..+)|()/
   validates :name,  presence: true, length: { maximum: 50 },
     uniqueness: { case_sensitive: false }
+
+  has_many :userpairs, foreign_key: 'user1_id'
+  has_many :userpairs, foreign_key: 'user2_id'
 
   def email_required?
     false

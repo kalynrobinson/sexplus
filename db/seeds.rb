@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+Category.create([{
+    name: 'Preferences',
+    description: 'Frequency, length, and intensity of sex.'
+  }, {
+    name: 'Intimacy & Communication',
+    description: 'Acts that are not explicitly sexual, such as baths and massages.'
+  }
+])
