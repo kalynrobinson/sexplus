@@ -1,0 +1,8 @@
+<% if user_signed_in? %>
+  <%= nav_link current_user.name, user_path(current_user) %>
+  <%= nav_link "Settings", edit_user_registration_path %>
+  <%= link_to "Logout", destroy_user_session_path, :method => :delete, class: "mdl-layout__tab" %>
+<% else %>
+  <%= nav_link "Log In", new_user_session_path %>
+  <%= nav_link "Register", new_user_registration_path %>
+<% end %>
