@@ -15,3 +15,7 @@
 //= require material
 //= require turbolinks
 //= require_tree .
+
+document.addEventListener('turbolinks:load', function() {
+  componentHandler.upgradeDom();
+});
