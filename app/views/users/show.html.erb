@@ -16,12 +16,21 @@
   </div>
   <% if current_user == @user %>
     <div class="mdl-card__actions mdl-card--border">
-      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
-        Surveys
-      </a>
-
       <%= link_to "Edit Profile", edit_user_registration_path,
           class: "mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" %>
     </div>
   <% end %>
+</div>
+
+
+<div class="mdl-card mdl-card--fixed-height-title mdl-card--fixed-height-text mdl-cell
+            mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--8-col-tablet mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--survey">
+    <h2 class="mdl-card__title-text">Surveys</h2>
+  </div>
+  <div class="mdl-card__supporting-text">
+    <% @pairs.each do |pair| %>
+      <%= link_to pair.survey.created_at.strftime("%B %d,  %Y"), survey_path(pair.survey.token) %> <br/>
+    <% end %>
+  </div>
 </div>

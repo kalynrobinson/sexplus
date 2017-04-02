@@ -1,6 +1,30 @@
 $color-primary-dark: 0,0,0 !default;
 $color-primary-dark-rgb: rgb(0,0,0);
 @import 'material';
+.mdl-card--flash {
+  min-height: initial;
+}
+.mdl-slider__container {
+  display: none;
+}
+.mdl-slider__container.show {
+  display: flex;
+}
+.material-icons.fantasy-rating {
+  font-size: 20px;
+  color: unquote("rgb(#{$color-accent})");
+}
+.fantasy__label {
+  color: unquote("rgb(#{$color-accent})");
+  font-size: 16px;
+}
+.fantasy__name {
+  color: #000;
+  font-size: 16px;
+}
+.preference {
+  color: unquote("rgb(#{$color-accent})");
+}
 
 html, body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
@@ -257,6 +281,9 @@ a.mdl-navigation__link.is-active {
 }
 .mdl-card--fixed-height-text .mdl-card__supporting-text {
   height: 100px!important;
+}
+.mdl-card--flash .mdl-card__title--image {
+  background: url(image_path('pinkandblue2.png')) top right / cover;
 }
 .mdl-card__title--image {
   background: url(image_path('theredlist.png')) center / cover;

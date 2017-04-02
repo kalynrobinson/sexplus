@@ -9,10 +9,12 @@ class CreateUserPairs < ActiveRecord::Migration[5.0]
       # User1 info
       t.string :user1_name
       t.string :user1_genitals
+      t.string :user1_email
 
       # User2 info
       t.string :user2_name
       t.string :user2_genitals
+      t.string :user2_email
 
       t.timestamps
     end

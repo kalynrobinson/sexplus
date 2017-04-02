@@ -1,6 +1,6 @@
 <% provide(:title, 'Survey Results') %>
 <div class="mdl-layout__jumbo mdl-layout__survey mdl-color--primary">
-    <div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
+    <div class="mdl-layout__header-row"></div>
     <div class="mdl-layout__header-row">
         <h1>Sex+ Survey Results</h1>
     </div>
@@ -9,28 +9,130 @@
     </div>
     <div class="mdl-layout__header-row"></div>
 </div>
-<div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
 
 <section class="section--center mdl-grid">
-  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-    <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--yours">
-      <h2 class="mdl-card__title-text">
-        <%= @survey.user_pair.user1_name %>
-      </h2>
+  <% if @survey.taken < 2 %>
+    <div class="mdl-card mdl-card--flash mdl-cell mdl-cell--12-col-desktop
+                mdl-cell--8-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--survey">
+            <h2 class="mdl-card__title-text">
+              <%= @survey.user_pair.user2_name %> hasn't taken the survey!
+            </h2>
+        </div>
+        <div class="mdl-card__supporting-text">
+          Direct them to <%= link_to edit_survey_url, edit_survey_path %>.
+        </div>
     </div>
-    <div class="mdl-card__supporting-text">
-      <%= "#{@survey.user_pair.user1_name} has a #{@survey.user_pair.user1_genitals}" %>
-    </div>
-  </div>
 
-  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col mdl-shadow--2dp">
-    <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--theirs">
-      <h2 class="mdl-card__title-text">
-        <%= @survey.user_pair.user2_name %>
-      </h2>
+  <% else %>
+
+    <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--yours">
+        <h2 class="mdl-card__title-text">
+          <%= @survey.user_pair.user1_name %>
+        </h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <div class="mdl-grid">
+          <% @survey.survey_questions.where(category_id: 1).each do |preference| %>
+            <% if preference.value[0] %>
+              <div class="mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet">
+                <%= preference.question.description %>
+                <span class='preference'><%= preference_rating preference.value[0], preference %></span>
+              </div>
+              <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet">
+                <%= preference_stars preference.value[0] %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <div class="mdl-card__supporting-text">
-      <%= "#{@survey.user_pair.user2_name} has a #{@survey.user_pair.user2_genitals}" %>
+
+    <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
+      <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--theirs">
+        <h2 class="mdl-card__title-text">
+          <%= @survey.user_pair.user2_name %>
+        </h2>
+      </div>
+      <div class="mdl-card__supporting-text">
+        <div class="mdl-grid">
+          <% @survey.survey_questions.where(category_id: 1).each do |preference| %>
+            <% if preference.value[1] %>
+              <div class="mdl-cell mdl-cell--9-col-desktop mdl-cell--8-col-tablet">
+                <%= preference.question.description %>
+                <span class='preference'><%= preference_rating preference.value[1], preference %></span>
+              </div>
+              <div class="mdl-cell mdl-cell--3-col-desktop mdl-cell--8-col-tablet">
+                <%= preference_stars preference.value[1] %>
+              </div>
+            <% else %>
+              <div class="mdl-cell"></div>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="section--center mdl-grid">
+    <% @categories.each do |category| %>
+      <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--12-col mdl-shadow--2dp">
+        <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--yours">
+          <h2 class="mdl-card__title-text">
+            <%= category.name %>
+          </h2>
+          <h3 class="mdl-card__title-subtext"><%= category.description %></h3>
+        </div>
+        <div class="mdl-card__supporting-text">
+          <div class="mdl-grid">
+            <% survey_questions = @survey.survey_questions.where(category_id: category.id).where("array_length(value, 1) > 1").where.not("'0' = ANY (value)").order(:id) %>
+
+            <% if survey_questions.count == 0 %>
+              Whoops! There are no mutual wants for this category.
+            <% else %>
+              <div class="mdl-cell mdl-cell--6-col mdl-cell--hide-phone">
+              </div>
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--hide-phone fantasy__name">
+                <%= @survey.user_pair.user1_name %>'s response
+              </div>
+              <div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-tablet mdl-cell--hide-phone fantasy__name">
+                <%= @survey.user_pair.user2_name %>'s response
+              </div>
+
+              <% survey_questions.each do |question| %>
+                <div class="mdl-cell mdl-cell--6-col fantasy__label">
+                  <% if question.question.description.include? '$' %>
+                    <%= parse_token question.question.description, @survey.user_pair.user1_name, @survey.user_pair.user2_name %>
+                  <% else %>
+                    <%= question.question.description %>
+                  <% end %>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone mdl-cell--4-col-tablet">
+                  <span class="mdl-cell--hide-desktop mdl-cell--hide-tablet fantasy__name">
+                    <%= @survey.user_pair.user1_name %>'s response <br/>
+                  </span>
+                  <%= fantasy_rating question.value[0].to_i %>
+                  <span class="mdl-cell--hide-phone"><br/><%= fantasy_stars question.value[0].to_i %></span>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone mdl-cell--4-col-tablet">
+                  <span class="mdl-cell--hide-desktop mdl-cell--hide-tablet fantasy__name">
+                    <%= @survey.user_pair.user2_name %>'s response <br/>
+                  </span>
+                  <%= fantasy_rating question.value[1].to_i %>
+                  <span class="mdl-cell--hide-phone"><br/><%= fantasy_stars question.value[1].to_i %></span>
+                </div>
+                <div class="mdl-cell mdl-cell--hide-desktop mdl-cell--hide-tablet mdl-cell--2-col-phone">
+                  <%= fantasy_stars question.value[0].to_i %>
+                </div>
+                <div class="mdl-cell mdl-cell--hide-desktop mdl-cell--hide-tablet mdl-cell--2-col-phone">
+                  <%= fantasy_stars question.value[1].to_i %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 </section>

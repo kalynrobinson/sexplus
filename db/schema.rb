@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170401181249) do
+ActiveRecord::Schema.define(version: 20170401214943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,11 +38,26 @@ ActiveRecord::Schema.define(version: 20170401181249) do
     t.index ["options"], name: "index_questions_on_options", using: :btree
   end
 
+  create_table "survey_questions", force: :cascade do |t|
+    t.integer  "question_id"
+    t.integer  "survey_id"
+    t.integer  "category_id"
+    t.string   "participant"
+    t.string   "value",       default: [],              array: true
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.index ["category_id"], name: "index_survey_questions_on_category_id", using: :btree
+    t.index ["question_id"], name: "index_survey_questions_on_question_id", using: :btree
+    t.index ["survey_id"], name: "index_survey_questions_on_survey_id", using: :btree
+  end
+
   create_table "surveys", force: :cascade do |t|
     t.string   "token"
-    t.string   "category_ids", default: [],              array: true
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.boolean  "granular",     default: false
+    t.integer  "taken",        default: 0
+    t.string   "category_ids", default: [],                 array: true
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
   create_table "user_pairs", force: :cascade do |t|
@@ -51,8 +66,10 @@ ActiveRecord::Schema.define(version: 20170401181249) do
     t.integer  "survey_id"
     t.string   "user1_name"
     t.string   "user1_genitals"
+    t.string   "user1_email"
     t.string   "user2_name"
     t.string   "user2_genitals"
+    t.string   "user2_email"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.index ["survey_id"], name: "index_user_pairs_on_survey_id", using: :btree
@@ -84,5 +101,8 @@ ActiveRecord::Schema.define(version: 20170401181249) do
   end
 
   add_foreign_key "questions", "categories"
+  add_foreign_key "survey_questions", "categories"
+  add_foreign_key "survey_questions", "questions"
+  add_foreign_key "survey_questions", "surveys"
   add_foreign_key "user_pairs", "surveys"
 end

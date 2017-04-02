@@ -7,8 +7,8 @@ class User < ApplicationRecord
   validates :name,  presence: true, length: { maximum: 50 },
     uniqueness: { case_sensitive: false }
 
-  has_many :userpairs, foreign_key: 'user1_id'
-  has_many :userpairs, foreign_key: 'user2_id'
+  has_many :user_pairs, foreign_key: 'user1_id'
+  # has_many :user_pairs, foreign_key: 'user2_id'
 
   def email_required?
     false

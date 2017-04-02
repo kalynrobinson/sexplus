@@ -14,15 +14,44 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= devise_error_messages! %>
   <section class="section--center mdl-grid">
-      <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--4-col-desktop mdl-cell--4-offset-desktop mdl-cell--8-col-tablet mdl-shadow--2dp">
+      <div class="mdl-layout-spacer"></div>
+      <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--4-col-desktop mdl-cell--8-col-tablet mdl-shadow--2dp">
           <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--survey">
               <h2 class="mdl-card__title-text">
                 We just need a little info...
               </h2>
           </div>
           <div class="mdl-card__supporting-text">
-            <%= @categories %>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--card">
+                <%= f.text_field :name, class: 'mdl-textfield__input', autofocus: true %>
+                <%= f.label :name, class: "mdl-textfield__label", placeholder: "Georgie O'keefe" %>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--card">
+                <%= f.email_field :email, class: 'mdl-textfield__input' %>
+                <%= f.label :email, class: "mdl-textfield__label", placeholder: "georgiaokeeffe@example.com" %>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--card">
+                <%= f.password_field :password, class: 'mdl-textfield__input', autocomplete: 'off' %>
+                <%= f.label :password, "Change Password", class: "mdl-textfield__label" %>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--card">
+                <%= f.password_field :password_confirmation, class: 'mdl-textfield__input', autocomplete: 'off' %>
+                <%= f.label :password_confirmation, class: "mdl-textfield__label" %>
+            </div>
+
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--card">
+                <%= f.password_field :current_password, class: 'mdl-textfield__input', autocomplete: 'off' %>
+                <%= f.label 'Current Password (required)', class: "mdl-textfield__label" %>
+            </div>
+
+            <div class="actions">
+              <%= f.submit "Submit Changes", class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" %>
+            </div>
           </div>
       </div>
+      <div class="mdl-layout-spacer"></div>
   </section>
 <% end %>
