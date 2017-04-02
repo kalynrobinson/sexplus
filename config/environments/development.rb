@@ -14,6 +14,16 @@ Rails.application.configure do
 
   # Define default URL options.
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  config.action_mailer.delivery_method = :smtp
+  # SMTP settings for gmail
+  config.action_mailer.smtp_settings = {
+   :address              => "smtp.gmail.com",
+   :port                 => 587,
+   :user_name            => ENV['EMAIL_USERNAME'],
+   :password             => ENV['EMAIL_PASSWORD'],
+   :authentication       => "plain",
+   :enable_starttls_auto => true
+  }
 
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?

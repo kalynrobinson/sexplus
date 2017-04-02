@@ -1,0 +1,23 @@
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--8-col">
+    <%= question %>
+  </div>
+
+  <div class="mdl-cell mdl-cell--4-col" id="question-<%= question.id %>">
+    <!-- <div class="rating"></div> -->
+      <div class="mdl-card__form">
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="survey_user_pair_attributes_user1_genitals_penis">
+              <%= question.radio_button "question__radio", 'no', class: "mdl-radio__button" %>
+              <span class="mdl-radio__label">No</span>
+          </label>
+          <!-- <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="survey_user_pair_attributes_user1_genitals_vagina">
+              <%= form.radio_button :user1_genitals, 'vagina', class: "mdl-radio__button" %>
+              <span class="mdl-radio__label">Vagina</span>
+          </label>
+          <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="survey_user_pair_attributes_user1_genitals_other">
+              <%= form.radio_button :user1_genitals, 'other', class: "mdl-radio__button" %>
+              <span class="mdl-radio__label">Other</span>
+          </label> -->
+      </div>
+  </div>
+</div>

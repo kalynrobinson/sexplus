@@ -3,6 +3,7 @@ class Survey < ApplicationRecord
 
   has_one :user_pair, dependent: :destroy
   has_many :users, through: :userpair, class_name: 'UserPair'
-
-  accepts_nested_attributes_for :user_pair
+  has_many :survey_questions
+  
+  accepts_nested_attributes_for :user_pair, :survey_questions
 end

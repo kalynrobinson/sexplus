@@ -1,4 +1,4 @@
-<%= form_for @survey do |form| %>
+<%= form_for @survey, url: edit_survey_path do |form| %>
   <% @categories.each do |category| %>
     <section class="section--center mdl-grid">
       <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--12-col mdl-shadow--2dp">
@@ -9,9 +9,53 @@
           <h3 class="mdl-card__title-subtext"><%= category.description %></h3>
         </div>
         <div class="mdl-card__supporting-text">
+          <div class="mdl-grid">
+            <% @survey.survey_questions.granular(@survey.granular).where(category_id: category.id).order(:id).each do |question| %>
+              <%= form.fields_for "survey_questions[]", question do |question_field| %>
+                <div class="mdl-cell mdl-cell--6-col">
+                  <% if question.question.description.include? '$' %>
+                    <%= parse_token question.question.description, @survey.taken, @survey.user_pair.user1_name, @survey.user_pair.user2_name %>
+                  <% else %>
+                    <%= question.question.description %>
+                  <% end %>
 
+                  <!-- TODO: FIX -->
+                  <% if question.question.options %>
+                    <!-- <%= question_field.select :value do %> -->
+                      <%= question.question.options %>
+                    <!-- <% end %> -->
+                  <% end %>
+                </div>
+
+                <div class="mdl-cell mdl-cell--6-col">
+                  <div class="mdl-card__form">
+                      <%= question_field.range_field :value, class: "mdl-slider mdl-js-slider", min: '0', max: '1', value: '0' %>
+                      <%= question_field.label :status, value: '0', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                        <%= question_field.radio_button :status, '0', class: "mdl-radio__button fantasy", checked: true %>
+                        <span class="mdl-radio__label">Not interested</span>
+                      <% end %>
+                      <%= question_field.label :status, value: '1', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                        <%= question_field.radio_button :status, '1', class: "mdl-radio__button fantasy" %>
+                        <span class="mdl-radio__label">If my partner is interested</span>
+                      <% end %>
+                      <%= question_field.label :status, value: '6', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                        <%= question_field.radio_button :status, '6', class: "mdl-radio__button fantasy" %>
+                        <span class="mdl-radio__label">Interested</span>
+                      <% end %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
     </section>
   <% end %>
+
+  <div class="mdl-grid">
+      <div class="mdl-layout-spacer"></div>
+      <%= form.submit 'Submit Survey',
+          class: "mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" %>
+      <div class="mdl-layout-spacer"></div>
+  </div>
 <% end %>

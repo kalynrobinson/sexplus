@@ -5,10 +5,15 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :users, only: [:index, :show]
-  resources :surveys
+  resources :surveys do
+    resources :survey_questions
+  end
 
   root 'pages#home'
 
   get  '/help',    to: 'pages#help'
   get  '/about',   to: 'pages#about'
+
+  patch '/surveys/:id/edit',  to: 'surveys#update'
+  get '/surveys/:id',  to: 'surveys#show'
 end
