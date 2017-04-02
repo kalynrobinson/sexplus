@@ -10,28 +10,34 @@
     <div class="mdl-layout__header-row"></div>
 </div>
 
-<div class="mdl-layout--large-screen-only mdl-layout__header-row"></div>
-
 <section class="section--center mdl-grid">
-  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col mdl-shadow--2dp">
+  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
     <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--yours">
       <h2 class="mdl-card__title-text">
         <%= @survey.user_pair.user1_name %>
       </h2>
     </div>
     <div class="mdl-card__supporting-text">
-      <%= "#{@survey.user_pair.user1_name} has a #{@survey.user_pair.user1_genitals}" %>
+      <% if @survey.user_pair.user1_genitals %>
+        <%= "#{@survey.user_pair.user1_name} has a #{@survey.user_pair.user1_genitals}" %>
+      <% else %>
+        <%= "#{@survey.user_pair.user1_name} has not specified their anatomy." %>
+      <% end %>
     </div>
   </div>
 
-  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col mdl-shadow--2dp">
+  <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--6-col-desktop mdl-cell--4-col-tablet mdl-cell--4-col-phone mdl-shadow--2dp">
     <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--theirs">
       <h2 class="mdl-card__title-text">
         <%= @survey.user_pair.user2_name %>
       </h2>
     </div>
     <div class="mdl-card__supporting-text">
-      <%= "#{@survey.user_pair.user2_name} has a #{@survey.user_pair.user2_genitals}" %>
+      <% if @survey.user_pair.user2_genitals %>
+        <%= "#{@survey.user_pair.user2_name} has a #{@survey.user_pair.user2_genitals}" %>
+        <% else %>
+          <%= "#{@survey.user_pair.user2_name} has not specified their anatomy." %>
+        <% end %>
     </div>
   </div>
 </section>

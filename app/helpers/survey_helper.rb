@@ -13,14 +13,13 @@ module SurveyHelper
   end
 
   def preference_rating(rating, preference)
-    keys = preference.question.options.keys
     rating = rating.to_i
 
     if rating == 0
-      preference.question.options[keys[0]]
+      preference.question.options[0]
     else
       ndx = (rating / 5).floor
-      preference.question.options[keys[ndx]]
+      preference.question.options[ndx]
     end
   end
 
@@ -33,6 +32,6 @@ module SurveyHelper
 
   def parse_token(message, user1, user2)
     msg = message.gsub(/\$1/, user1)
-    msg.gsub!(/\$2/, user2)
+    msg.gsub(/\$2/, user2)
   end
 end

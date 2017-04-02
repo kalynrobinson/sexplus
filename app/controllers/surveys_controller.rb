@@ -60,8 +60,10 @@ class SurveysController < ApplicationController
     @categories = @survey.category_ids.map { |c| Category.find(c) }
     @categories.each do |c|
       c.questions.each do |q|
-        @survey.survey_questions.build(question_id: q.id, survey_id: @survey.id,
-                                       category_id: c.id)
+        if (q.parent_id && @survey.granular) || !q.parent_id
+          @survey.survey_questions.build(question_id: q.id, survey_id: @survey.id,
+                                         category_id: c.id)
+        end
       end
     end
 

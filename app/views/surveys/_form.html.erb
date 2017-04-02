@@ -1,8 +1,8 @@
 <%= form_for @survey, url: edit_survey_path do |form| %>
+  <section class="section--center mdl-grid">
   <% @categories.each do |category| %>
-    <section class="section--center mdl-grid">
       <div class="mdl-card mdl-card--fixed-height-title mdl-cell mdl-cell--12-col mdl-shadow--2dp">
-        <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--yours">
+        <div class="mdl-card__title mdl-card--expand mdl-card__title--image mdl-card__title--<%=category.name.downcase%>">
           <h2 class="mdl-card__title-text">
             <%= category.name %>
           </h2>
@@ -18,30 +18,33 @@
                   <% else %>
                     <%= question.question.description %>
                   <% end %>
-
-                  <!-- TODO: FIX -->
-                  <% if question.question.options %>
-                    <!-- <%= question_field.select :value do %> -->
-                      <%= question.question.options %>
-                    <!-- <% end %> -->
-                  <% end %>
                 </div>
 
                 <div class="mdl-cell mdl-cell--6-col">
                   <div class="mdl-card__form">
+                    <!-- TODO: FIX -->
+                    <% if question.question.options %>
                       <%= question_field.range_field :value, class: "mdl-slider mdl-js-slider", min: '0', max: '1', value: '0' %>
-                      <%= question_field.label :status, value: '0', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
-                        <%= question_field.radio_button :status, '0', class: "mdl-radio__button fantasy", checked: true %>
-                        <span class="mdl-radio__label">Not interested</span>
+                      <%= question_field.select :status do %>
+                        <% question.question.options.each_with_index do |o, ndx| %>
+                          <option value="<%= ndx %>"><%= o %></option>
+                        <% end %>
                       <% end %>
-                      <%= question_field.label :status, value: '1', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
-                        <%= question_field.radio_button :status, '1', class: "mdl-radio__button fantasy" %>
-                        <span class="mdl-radio__label">If my partner is interested</span>
+                    <% else %>
+                      <%= question_field.range_field :value, class: "mdl-slider mdl-js-slider", min: '0', max: '1', value: '0' %>
+                        <%= question_field.label :status, value: '0', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                          <%= question_field.radio_button :status, '0', class: "mdl-radio__button fantasy", checked: true %>
+                          <span class="mdl-radio__label">Not interested</span>
+                        <% end %>
+                        <%= question_field.label :status, value: '1', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                          <%= question_field.radio_button :status, '1', class: "mdl-radio__button fantasy" %>
+                          <span class="mdl-radio__label">If my partner is interested</span>
+                        <% end %>
+                        <%= question_field.label :status, value: '6', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
+                          <%= question_field.radio_button :status, '6', class: "mdl-radio__button fantasy" %>
+                          <span class="mdl-radio__label">Interested</span>
                       <% end %>
-                      <%= question_field.label :status, value: '6', class: 'mdl-radio mdl-js-radio mdl-js-ripple-effect' do %>
-                        <%= question_field.radio_button :status, '6', class: "mdl-radio__button fantasy" %>
-                        <span class="mdl-radio__label">Interested</span>
-                      <% end %>
+                    <% end %>
                   </div>
                 </div>
               <% end %>
@@ -49,8 +52,8 @@
           </div>
         </div>
       </div>
-    </section>
   <% end %>
+</section>
 
   <div class="mdl-grid">
       <div class="mdl-layout-spacer"></div>

@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :users, only: [:index, :show]
-  resources :surveys do
+  resources :surveys, only: [:new, :edit, :update, :show] do
     resources :survey_questions
   end
 
@@ -16,4 +16,6 @@ Rails.application.routes.draw do
 
   patch '/surveys/:id/edit',  to: 'surveys#update'
   get '/surveys/:id',  to: 'surveys#show'
+  get '/surveys',  to: 'surveys#new'
+  post '/surveys', to: 'surveys#create'
 end

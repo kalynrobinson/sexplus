@@ -330,6 +330,18 @@ a.mdl-navigation__link.is-active {
 .mdl-card__title--articles {
     background: url(image_path('hill.png')) center / cover;
 }
+.mdl-card__title--preferences {
+    background: url(image_path('blueflower.png')) center / cover;
+}
+.mdl-card__title--intimacy {
+    background: url(image_path('hill.png')) center / cover;
+}
+.mdl-card__title--basics {
+    background: url(image_path('them.png')) center / cover;
+}
+.mdl-card__title--location {
+    background: url(image_path('you.png')) center / cover;
+}
 .mdl-layout__drawer-button {
   background-color: $color-primary-dark-rgb;
 }

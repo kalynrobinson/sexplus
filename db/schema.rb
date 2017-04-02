@@ -14,7 +14,6 @@ ActiveRecord::Schema.define(version: 20170401214943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-  enable_extension "hstore"
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -29,13 +28,12 @@ ActiveRecord::Schema.define(version: 20170401214943) do
     t.string   "name"
     t.text     "description"
     t.string   "input_type"
-    t.hstore   "options"
+    t.string   "options",                  array: true
     t.integer  "parent_id"
     t.string   "genitalia"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.index ["category_id"], name: "index_questions_on_category_id", using: :btree
-    t.index ["options"], name: "index_questions_on_options", using: :btree
   end
 
   create_table "survey_questions", force: :cascade do |t|
