@@ -19,9 +19,8 @@ module SurveyHelper
     if rating == 0
       preference.question.options[keys[0]]
     else
-      keys.delete_at(0)
       ndx = (rating / 5).floor
-      preference.question.options[key[ndx]]
+      preference.question.options[keys[ndx]]
     end
   end
 
@@ -32,14 +31,8 @@ module SurveyHelper
     ('<i class="material-icons fantasy-rating">favorite</i>' * stars).html_safe
   end
 
-  def parse_token(message, taken, user1, user2)
-    if taken == 0
-      names = [user1, user2]
-    else
-      names = [user2.user2_name, user1]
-    end
-
-    msg = message.gsub(/\$1/, names[0])
-    msg.gsub!(/\$2/, names[1])
+  def parse_token(message, user1, user2)
+    msg = message.gsub(/\$1/, user1)
+    msg.gsub!(/\$2/, user2)
   end
 end

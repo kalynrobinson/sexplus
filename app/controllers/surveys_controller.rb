@@ -1,4 +1,6 @@
 class SurveysController < ApplicationController
+  include Devise::Controllers::Helpers
+
   def new
     @survey = Survey.new
     @survey.build_user_pair
@@ -28,7 +30,22 @@ class SurveysController < ApplicationController
 
     @survey.taken += 1
 
+    if user_signed_in?
+      @survey.user_pair.user1_id = current_user.id if @survey.taken == 1
+      @survey.user_pair.user2_id = current_user.id if @survey.taken > 1
+    end
+
     if @survey.save
+      email = @survey.user_pair.user2_email
+      if @survey.taken == 1 && @survey.user_pair.user2_email
+        SurveyMailer.survey_email(email, @survey.token).deliver
+      else
+        SurveyMailer.survey_completed_email(@survey.user_pair.user1_email,
+          @survey.token).deliver if @survey.user_pair.user1_email
+        SurveyMailer.survey_completed_email(@survey.user_pair.user2_email,
+          @survey.token).deliver if @survey.user_pair.user2_email
+      end
+
       flash[:success] = "Successfully submitted survey!"
       redirect_to survey_path @survey.token
     else
@@ -49,8 +66,6 @@ class SurveysController < ApplicationController
     end
 
     if @survey.save
-      email = @survey.user_pair.user2_email
-      SurveyMailer.survey_email(email, @survey.token).deliver if email
       flash[:success] = "Survey submitted"
       redirect_to edit_survey_path @survey.token
     else
@@ -60,6 +75,7 @@ class SurveysController < ApplicationController
 
   def show
     @survey = Survey.find_by(token: params[:id])
+    @survey.category_ids.delete('1')
     @categories = @survey.category_ids.map { |c| Category.find(c) }
   end
 
@@ -76,6 +92,6 @@ class SurveysController < ApplicationController
   def survey_params
     params.require(:survey).permit(:granular, category_ids: [],
            user_pair_attributes: [:user1_name, :user1_genitals, :user1_email, :user2_name, :user2_genitals, :user2_email],
-           survey_questions: [:value])
+           survey_questions: [:value, :status])
   end
 end

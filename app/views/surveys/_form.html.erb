@@ -14,7 +14,7 @@
               <%= form.fields_for "survey_questions[]", question do |question_field| %>
                 <div class="mdl-cell mdl-cell--6-col">
                   <% if question.question.description.include? '$' %>
-                    <%= parse_token question.question.description, @survey.taken, @survey.user_pair.user1_name, @survey.user_pair.user2_name %>
+                    <%= parse_token question.question.description, @survey.user_pair.user1_name, @survey.user_pair.user2_name %>
                   <% else %>
                     <%= question.question.description %>
                   <% end %>
