@@ -37,13 +37,13 @@ class SurveysController < ApplicationController
 
     if @survey.save
       email = @survey.user_pair.user2_email
-      if @survey.taken == 1 && @survey.user_pair.user2_email
+      if @survey.taken == 1 && !@survey.user_pair.user2_email.blank?
         SurveyMailer.survey_email(email, @survey.token).deliver
       else
         SurveyMailer.survey_completed_email(@survey.user_pair.user1_email,
-          @survey.token).deliver if @survey.user_pair.user1_email
+          @survey.token).deliver unless @survey.user_pair.user1_email.blank?
         SurveyMailer.survey_completed_email(@survey.user_pair.user2_email,
-          @survey.token).deliver if @survey.user_pair.user2_email
+          @survey.token).deliver unless @survey.user_pair.user2_email.blank?
       end
 
       flash[:success] = "Successfully submitted survey!"
