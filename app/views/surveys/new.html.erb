@@ -99,7 +99,7 @@
             <div class="mdl-card__supporting-text">
                 Select which categories you would like to be included in your survey. For a full list of questions, see
                 <%= link_to 'here', questions_index_path %>.
-                <%= form.collection_check_boxes :category_ids, Category.where(sfw: true), :id, :name do |category| %>
+                <%= form.collection_check_boxes :category_ids, Category.all, :id, :name do |category| %>
                   <%= category.label class: 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect' do %>
                     <%= category.check_box class: 'mdl-checkbox__input' %>
                     <span class="mdl-checkbox__label">
